@@ -1,0 +1,18 @@
+.mainpage {
+  font-size: calc(10px + 2vmin);
+  color: lightgreen;
+  
+  .testSlogan {
+    color: coral;
+
+    .linc {
+      font-size: small;
+      
+      &.blue {
+        color: lightblue;
+      }
+
+    }
+  }
+}
+

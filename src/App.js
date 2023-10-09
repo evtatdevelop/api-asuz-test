@@ -1,14 +1,15 @@
+import React from 'react';
 import './App.scss';
+import { Routes, Route } from 'react-router-dom';
+import { MainPage } from './features/main/mainpage';
 
 function App() {
+
   return (
     <div className="App">
-      <h1 className='testSlogan'>
-        api-asuz-test
-        &nbsp;
-        <a className='linc blue' href='/'>Linc</a>
-      </h1>
-      main page
+      <Routes>
+        <Route path={`/`} exact element={<MainPage/>}/> 
+      </Routes>
     </div>
   );
 }
