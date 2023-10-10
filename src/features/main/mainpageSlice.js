@@ -61,7 +61,7 @@ export const mainpageSlice = createSlice({
 
     // searchUser
     .addCase(searchUser.pending, ( state ) => {
-      state.tests = [...state.tests, { name: 'Searching user by string', query: 'searchUser', data: null, result: null }];    
+      state.tests = [...state.tests, { name: 'Search user by string', query: 'searchUser', data: null, result: null }];    
     })
     .addCase(searchUser.fulfilled, ( state, action ) => {
       const test = state.tests.find(test => test.query === 'searchUser');

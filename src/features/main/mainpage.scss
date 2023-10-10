@@ -33,6 +33,7 @@
   }
 
   .btnStart {
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -41,12 +42,55 @@
     height: 10vmin;
     border-radius: 5vmin;
     border: .3vmin solid coral;
-    font-size: 3vmin;
+    font-size: 3.5vmin;
     font-weight: 700;
     color: #161619;
+    text-shadow: 0 .1vmin 0 #585858;
     cursor: pointer;
-  }
+    background-image: -webkit-repeating-radial-gradient(
+      circle,
+      #282c34, #282c34 45%,
+      transparent 45%, transparent 60%,
+      #282c34 60%, #282c34 100%
+      );
+      background-image: repeating-radial-gradient(
+      circle,
+      #35363A, #35363A 45%,
+      transparent 45%, transparent 60%,
+      #35363A 60%, #35363A 100%
+    );
+    background-size: .4vmin .4vmin;
 
-  // outline: 1px solid lightblue;
+    &::after {
+      position: absolute;
+      content: '';
+      width: calc(10vmin - .3vmin);
+      height: calc(10vmin - .3vmin);
+      border-radius: calc(5vmin - .15vmin);
+      border: .3vmin solid #161619;
+    }
+
+    &::before {
+      position: absolute;
+      content: '';
+      width: calc(10vmin + .8vmin);
+      height: calc(10vmin + .8vmin);
+      border-radius: calc(5vmin + .4vmin);
+      border: .3vmin solid rgba(245, 222, 179, 0.181);
+    }
+  }
 }
 
+
+
+
+@media (prefers-reduced-motion: no-preference) {
+  .btnStart { animation: App-logo-spin infinite 15s linear; }
+}
+
+@keyframes App-logo-spin {
+  0%    { border-color: coral; }
+  33%   { border-color: lightblue; }
+  66%   { border-color: lightgreen; }
+  100%  { border-color: coral; }  
+}  

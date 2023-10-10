@@ -24,7 +24,7 @@ export const MainPage = () => {
     dispatch(getUserLogin({'api_key': resRemote.data.api_key, 'login': `${resRemote.data.domain}\\${resRemote.data.login}`}));   
     // setLang
     dispatch(setLang({'api_key': resRemote.data.api_key, 'app12_id': resRemote.data.id, 'lang': resRemote.data.lang==='RU' ? "EN" : 'RU' }));
-    // setLang
+    // searchUser
     dispatch(searchUser({'api_key': resRemote.data.api_key, 'string': resRemote.data.email.split('@')[0] }));
    }
   }, [dispatch, testData]);
