@@ -18,3 +18,7 @@ export const searchUsers = ( data ) => {
   const author_id = data.author_id ? data.author_id : '';
   return service.getResource(`${_apiBase}/?q=users&string=${string}&author_id=${author_id}`, data)
 }
+
+export const getMainpageData = ( data ) => service.getResource(`${_apiBase}/?q=mainpage`, data);
+export const addPrefers = ( data ) => service.updateResource(`${_apiBase}/?q=addprefers`, data);
+export const delPrefers = ( data ) => service.updateResource(`${_apiBase}/?q=delprefers`, data);

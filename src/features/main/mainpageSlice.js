@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { getRemoteUser, getUserData, setUserLang, searchUsers } from "./mainpageSliceAPI";
+import { getMainpageData, addPrefers, delPrefers } from "./mainpageSliceAPI";
 
 const initialState = {
   tests: []
@@ -10,7 +11,9 @@ export const getUserId    = createAsyncThunk( 'mainpage/getUserId', async ( data
 export const getUserLogin = createAsyncThunk( 'mainpage/getUserLogin', async ( data ) => await getUserData(data) );
 export const setLang      = createAsyncThunk( 'mainpage/setLang', async ( data ) => await setUserLang(data) );
 export const searchUser   = createAsyncThunk( 'mainpage/searchUser', async ( data ) => await searchUsers(data) );
-
+export const getMainpage  = createAsyncThunk( 'mainpage/getMainpage', async (data) => await getMainpageData(data) );
+export const addToPrefers = createAsyncThunk( 'primarypage/addToPrefers', async ( data ) => await addPrefers(data) )
+export const delToPrefers = createAsyncThunk( 'primarypage/delToPrefers', async ( data ) => await delPrefers(data) )
 
 export const mainpageSlice = createSlice({
   name: 'mainpage',
@@ -67,6 +70,40 @@ export const mainpageSlice = createSlice({
       const test = state.tests.find(test => test.query === 'searchUser');
       test.data = action.payload;
       test.result = test.data.length===1 && test.data[0].id === state.tests.find(test => test.query === 'remoteuser').data.id;
+    })
+
+    // getMainpage
+    .addCase(getMainpage.pending, ( state ) => {
+      state.tests = [...state.tests, { name: 'Retrieving Home Page Data', query: 'getMainpage', data: null, result: null }];    
+    })
+    .addCase(getMainpage.fulfilled, ( state, action ) => {
+      const test = state.tests.find(test => test.query === 'getMainpage');
+      test.data = action.payload;
+      test.result = !!(test.data.sections && test.data.sections.length && test.data.dictionary);
+    })
+
+    // addToPrefers
+    .addCase(addToPrefers.pending, ( state ) => {
+      state.tests = [...state.tests, { name: 'Add to favorites', query: 'addToPrefers', data: null, result: null }];    
+    })
+    .addCase(addToPrefers.fulfilled, ( state, action ) => {
+      const test = state.tests.find(test => test.query === 'addToPrefers');
+      test.data = action.payload;
+      test.result = action.payload.sections.find(sections => sections.prefix === 'FAVORITES').systems.length
+                  - state.tests.find(test => test.query === 'getMainpage').data.sections.find(sections => sections.prefix === 'FAVORITES').systems.length
+                  === 1;
+    })
+
+    // delToPrefers
+    .addCase(delToPrefers.pending, ( state ) => {
+      state.tests = [...state.tests, { name: 'Remove from favorites', query: 'delToPrefers', data: null, result: null }];    
+    })
+    .addCase(delToPrefers.fulfilled, ( state, action ) => {
+      const test = state.tests.find(test => test.query === 'delToPrefers');
+      test.data = action.payload;
+      test.result = state.tests.find(test => test.query === 'addToPrefers').data.sections.find(sections => sections.prefix === 'FAVORITES').systems.length
+                  - state.tests.find(test => test.query === 'delToPrefers').data.sections.find(sections => sections.prefix === 'FAVORITES').systems.length
+                  === 1;
     })
 
 

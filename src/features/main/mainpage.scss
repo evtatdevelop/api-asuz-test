@@ -25,9 +25,12 @@
 
       .success {
         color: lightgreen;
+        height: 15px;
+        // outline: 1px solid green;
       }
       .fail {
         color: coral;
+        height: 15px;
       }
     }
   }
