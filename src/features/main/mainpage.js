@@ -7,6 +7,7 @@ import { tests } from "./mainpageSlice";
 import { TestLoader } from "./testLoader";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCheck, faBan, } from '@fortawesome/free-solid-svg-icons'
+import { setUserLang } from "./mainpageSliceAPI";
 
 export const MainPage = () => {
 
@@ -63,7 +64,6 @@ export const MainPage = () => {
     const mainpage = testData.find(test => test.query === 'getMainpage');
 
     if ( addToPrefers && addToPrefers.result !== null ) {
-
       const before = mainpage.data.sections.find(sections => sections.prefix === 'FAVORITES').systems.map(syst => syst.asz22_id);
       const after = addToPrefers.data.sections.find(sections => sections.prefix === 'FAVORITES').systems.map(syst => syst.asz22_id);
       const freeIdArr = after.find(id => !before.includes(id));
@@ -74,7 +74,14 @@ export const MainPage = () => {
   }, [dispatch, testData]);
 
 
-
+  // rest
+  useEffect(() => {
+    const resRemote = testData.find(test => test.query === 'remoteuser'); 
+    const lang = testData.find(test => test.query === 'setLang'); 
+    if ( lang && lang.result !== null ) {
+      setUserLang({ 'api_key': resRemote.data.api_key, 'app12_id': resRemote.data.id, 'lang': resRemote.data.lang });
+    }
+  })
 
   return (
     <section className={'mainpage'} >
