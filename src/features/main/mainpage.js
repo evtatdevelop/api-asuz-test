@@ -1,21 +1,22 @@
 import React, { useEffect } from "react";
 import './mainpage.scss';
 import { useSelector, useDispatch } from "react-redux";
-import { remoteUser, getUserId, getUserLogin, setLang, searchUser } from "./mainpageSlice";
+import { getUserId, getUserLogin, setLang, searchUser } from "./mainpageSlice";
 import { getMainpage, addToPrefers, delToPrefers } from "./mainpageSlice";
-import { tests } from "./mainpageSlice";
+import { tests, logs, addLog, testing, setTesting } from "./mainpageSlice";
 import { TestLoader } from "./testLoader";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCheck, faBan, } from '@fortawesome/free-solid-svg-icons'
 import { setUserLang } from "./mainpageSliceAPI";
+import { StartButton } from "./startButton/startButton";
+import { BtnLoader } from "./startButton/btnLoader";
 
 export const MainPage = () => {
 
   const dispatch = useDispatch();
   const testData = useSelector(tests);
-
-
-  const test = () => dispatch(remoteUser());
+  const logsData = useSelector(logs);
+  const ontest = useSelector(testing);
   
   useEffect(() => {
    const resRemote = testData.find(test => test.query === 'remoteuser'); 
@@ -77,28 +78,37 @@ export const MainPage = () => {
   // rest
   useEffect(() => {
     const resRemote = testData.find(test => test.query === 'remoteuser'); 
-    const lang = testData.find(test => test.query === 'setLang'); 
-    if ( lang && lang.result !== null ) {
+    if ( ontest === 'stop' ) {
+      dispatch(setTesting(null));
       setUserLang({ 'api_key': resRemote.data.api_key, 'app12_id': resRemote.data.id, 'lang': resRemote.data.lang });
+      dispatch(addLog('The user interface language has been returned'));
+      dispatch(addLog('Testing complete '));
+      dispatch(addLog(''));
     }
   })
 
   return (
     <section className={'mainpage'} >
 
-      { !testData.length 
-        ? <button type="button" onClick={ test } className="btnStart">Test</button> 
-        : <ul className="testUl">
-            { testData.map((item, index) => <li key={index} className="testLi">
-              <label className="testName">{item.name}</label>
-              {item.result === null ? <TestLoader/> 
-                : item.result 
-                  ? <FontAwesomeIcon icon={faCheck} className="success"/>
-                  : <FontAwesomeIcon icon={faBan} className="fail"/>
-              }
-            </li>) }
-          </ul>
-      }
+      <div className="panel tests">
+        <ul className="testUl">
+          { testData.map((item, index) => <li key={index} className="testLi">
+            <label className="testName">{item.name}</label>
+            {item.result === null ? <TestLoader/> 
+              : item.result 
+                ? <FontAwesomeIcon icon={faCheck} className="success"/>
+                : <FontAwesomeIcon icon={faBan} className="fail"/>
+            }
+          </li>) }
+        </ul>
+      </div>
+      { !ontest ? <StartButton/> : <BtnLoader/> }
+      <div className="panel logs">
+        { logsData.length
+          ? logsData.map((log, index) => <p className="terminal-line" key={index}>{log}</p>) 
+          : <p className="terminal-line">&nbsp;</p>
+        }
+      </div>        
 
     </section>
   )
