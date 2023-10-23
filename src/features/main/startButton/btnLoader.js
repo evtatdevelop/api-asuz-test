@@ -3,7 +3,7 @@ import './startButton.scss';
 
 export const BtnLoader = () => {
   return (
-      <svg  className="btnLoader" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" width="" height="" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
+      <svg  className="btnLoader" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
         <g transform="rotate(0 50 50)">
           <rect x="48.5" y="28.5" rx="0" ry="0" width="3" height="3" fill="#05f5ec">
             <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1s" begin="-0.9565217391304348s" repeatCount="indefinite"></animate>

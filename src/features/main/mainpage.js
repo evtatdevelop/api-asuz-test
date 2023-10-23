@@ -81,9 +81,9 @@ export const MainPage = () => {
     if ( ontest === 'stop' ) {
       dispatch(setTesting(null));
       setUserLang({ 'api_key': resRemote.data.api_key, 'app12_id': resRemote.data.id, 'lang': resRemote.data.lang });
-      dispatch(addLog('The user interface language has been returned'));
+      dispatch(addLog('> The user interface language has been returned'));
       dispatch(addLog('Testing complete '));
-      dispatch(addLog(''));
+      dispatch(addLog(``));
     }
   })
 
